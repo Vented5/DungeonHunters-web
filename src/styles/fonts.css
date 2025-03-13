@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "MedievalSharp";
+    src: url("/fonts/MedievalSharp-Regular.woff2") format("woff2"),
+         url("/fonts/MedievalSharp-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  /* Aplicar la fuente globalmente */
+  body {
+    font-family: "MedievalSharp", sans-serif;
+  }
+  
