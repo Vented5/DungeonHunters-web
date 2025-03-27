@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#007bff" />
     <meta name="description" content="Hungeon Game - A medieval-themed adventure game." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <link rel="icon" href="/assets/dungeongame512x512.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/assets/dungeongame512x512.png" />
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" />
@@ -22,35 +25,47 @@
     <title>Hungeon Game Login</title>
   </head>
   <body>
+    <!-- React App Mount Point -->
     <div id="root"></div>
+   
+    <!-- Main React Script -->
+    <script type="module" src="./src/main.tsx"></script>
 
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker
-            .register('/sw.js')
-            .then((registration) => {
-              console.log('Service Worker registered:', registration);
-            })
-            .catch((error) => {
-              console.error('Service Worker registration failed:', error);
-            });
-        });
+  
+
+<!-- Install Button -->
+<button id="install-button">📥 Install App</button>
+
+<script>
+  let deferredPrompt;
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+
+    const installButton = document.getElementById("install-button");
+    installButton.style.display = "block";
+
+    installButton.addEventListener("click", async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === "accepted") {
+          console.log("User installed the PWA");
+          installButton.style.display = "none"; // Hide after install
+        }
+        deferredPrompt = null;
       }
-    </script>
+    });
+  });
 
-    <!-- Main Script -->
-    <script type="module" src="/src/main.tsx"></script>
+  // Hide button if already installed
+  window.addEventListener("appinstalled", () => {
+    console.log("PWA Installed");
+    document.getElementById("install-button").style.display = "none";
+  });
+</script>
 
-    <!-- Dark/Light Mode Toggle Script -->
-    <script>
-      const toggleButton = document.getElementById('toggle-mode');
-      const body = document.body;
-
-      toggleButton?.addEventListener('click', () => {
-        body.classList.toggle('light-mode');
-      });
-    </script>
-  </body>
+</body>
 </html>

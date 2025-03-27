@@ -17,12 +17,12 @@ export default defineConfig({
         theme_color: '#646cff',
         icons: [
           {
-            src: '/icons/icon-192x192.png',
+            src: 'DungeonHunters-web/src/assets/dungeongame192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: '/icons/icon-512x512.png',
+            src: 'DungeonHunters-web/src/assets/dungeongame512x512.png',
             sizes: '512x512',
             type: 'image/png',
           },

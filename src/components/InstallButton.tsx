@@ -1,64 +1,33 @@
-// src/components/InstallButton.tsx
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const InstallButton: React.FC = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [isVisible, setIsVisible] = useState(false);
+const InstallButton = () => {
+  const [deferredPrompt, setDeferredPrompt] = useState<Event | null>(null);
 
   useEffect(() => {
-    // Listen for the `beforeinstallprompt` event
-    const handleBeforeInstallPrompt = (event: Event) => {
-      // Prevent the default prompt
-      event.preventDefault();
-      // Save the event for later use
-      setDeferredPrompt(event);
-      // Show the install button
-      setIsVisible(true);
-    };
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    });
 
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    // Clean up the event listener
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('beforeinstallprompt', () => {});
     };
   }, []);
 
-  const handleInstallClick = async () => {
+  const handleInstall = () => {
     if (deferredPrompt) {
-      // Show the install prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond
-      const { outcome } = await deferredPrompt.userChoice;
-      // Log the result
-      console.log(`User response: ${outcome}`);
-      // Hide the install button
-      setIsVisible(false);
+      (deferredPrompt as any).prompt();
+      (deferredPrompt as any).userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the install');
+        }
+        setDeferredPrompt(null);
+      });
     }
   };
 
-  if (!isVisible) {
-    return null; // Don't render the button if the prompt isn't available
-  }
-
   return (
-    <button
-      onClick={handleInstallClick}
-      style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
-        padding: '10px 20px',
-        backgroundColor: '#007bff',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontSize: '16px',
-      }}
-    >
-      Install App
-    </button>
+    deferredPrompt ? <button onClick={handleInstall}>Install App</button> : null
   );
 };
 

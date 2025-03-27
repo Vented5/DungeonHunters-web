@@ -199,3 +199,37 @@ body {
 .register-link button:hover {
   text-decoration: underline;
 }
+/* Install PWA Button */
+#install-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--button-bg-color);
+  color: white;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: none;
+  animation: bounce 1.5s infinite;
+}
+
+/* Hover & Focus Effects */
+#install-button:hover {
+  background: var(--button-hover-bg-color);
+  box-shadow: 0 4px 15px rgba(0, 91, 187, 0.6);
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
