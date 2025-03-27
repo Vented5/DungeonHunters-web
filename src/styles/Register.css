@@ -1,0 +1,15 @@
+/* src/styles/Register.css */
+.register-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .register-container h1 {
+    font-size: 2rem;
+    color: #007bff;
+  }
+  
+  .register-container p {
+    font-size: 1.2rem;
+    color: #333;
+  }
