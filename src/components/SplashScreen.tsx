@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/SplashScreen.css";
+import styled, { keyframes } from "styled-components";
 
 interface SplashScreenProps {
   minDisplayTime?: number;
@@ -10,8 +10,100 @@ interface SplashScreenProps {
   loadingText?: string;
   appVersion?: string;
   backgroundColor?: string;
-  onInit?: () => Promise<boolean>; // Custom initialization function
+  onInit?: () => Promise<boolean>;
 }
+
+const SplashScreenWrapper = styled.div<{ bg: string }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden;
+  background: ${(props) => props.bg};
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  width: 80%;
+  max-width: 400px;
+`;
+
+const LogoContainer = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const pulse = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+`;
+
+const AppLogo = styled.svg`
+  animation: ${pulse} 2s infinite;
+`;
+
+const AppName = styled.h1`
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+`;
+
+const ProgressContainer = styled.div`
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+`;
+
+const ProgressBar = styled.div<{ width: number }>`
+  height: 100%;
+  background-color: white;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  width: ${(props) => props.width}%;
+`;
+
+const LoadingIndicator = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+`;
+
+const StatusText = styled.p`
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+`;
+
+const LoadingText = styled.p`
+  font-size: 1rem;
+`;
+
+const ErrorMessage = styled.p`
+  color: #ff6b6b;
+  font-weight: bold;
+`;
+
+const AppVersion = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  font-size: 0.8rem;
+  opacity: 0.6;
+`;
 
 const SplashScreen: React.FC<SplashScreenProps> = ({
   minDisplayTime = 2000,
@@ -36,10 +128,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
       try {
         // Setup a fake progress indicator
         progressInterval = setInterval(() => {
-          setProgress((prev) => {
-            // Max progress at 90% until we're actually done
-            return prev < 90 ? prev + 10 : prev;
-          });
+          setProgress((prev) => (prev < 90 ? prev + 10 : prev));
         }, minDisplayTime / 50);
 
         // Check authentication
@@ -53,18 +142,15 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
           customInitSuccess = await onInit();
         }
 
-        // Clear the progress interval
         clearInterval(progressInterval);
 
-        // Ensure minimum display time has elapsed
+        // Ensure minimum display time
         const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
 
-        // Set progress to 100%
         setProgress(100);
         setStatus("Ready!");
 
-        // Navigate after the remaining time
         setTimeout(() => {
           if (!accessToken || !customInitSuccess) {
             navigate("/dashboard");
@@ -72,13 +158,12 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
             navigate(navigateTo);
           }
         }, remainingTime);
-      } catch (error) {
+      } catch (err) {
         clearInterval(progressInterval);
         setError("Failed to initialize the application");
         setStatus("Error");
         setProgress(100);
 
-        // Navigate to login after delay even on error
         setTimeout(() => {
           navigate("/login");
         }, 10000);
@@ -92,39 +177,34 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
     };
   }, [minDisplayTime, navigate, navigateTo, onInit]);
 
-  // Default logo if none provided
   const defaultLogo = (
-    <svg className="app-logo" viewBox="0 0 100 100" width="120" height="120">
+    <AppLogo className="app-logo" viewBox="0 0 100 100" width="120" height="120">
       <circle cx="50" cy="50" r="40" fill="#4A90E2" />
       <polygon points="35,30 70,50 35,70" fill="white" />
-    </svg>
+    </AppLogo>
   );
 
   return (
-    <div className="splash-screen" style={{ background: backgroundColor }}>
-      <div className="splash-content">
-        <div className="logo-container">{logo || defaultLogo}</div>
-
-        <h1 className="app-name">{appName}</h1>
-
-        <div className="progress-container">
-          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-        </div>
-
-        <div className="loading-indicator">
+    <SplashScreenWrapper bg={backgroundColor}>
+      <Content>
+        <LogoContainer>{logo || defaultLogo}</LogoContainer>
+        <AppName className="app-name">{appName}</AppName>
+        <ProgressContainer>
+          <ProgressBar width={progress} />
+        </ProgressContainer>
+        <LoadingIndicator>
           {error ? (
-            <p className="error-message">{error}</p>
+            <ErrorMessage>{error}</ErrorMessage>
           ) : (
             <>
-              <p className="status-text">{status}</p>
-              <p className="loading-text">{loadingText}</p>
+              <StatusText>{status}</StatusText>
+              <LoadingText>{loadingText}</LoadingText>
             </>
           )}
-        </div>
-
-        <div className="app-version">{appVersion}</div>
-      </div>
-    </div>
+        </LoadingIndicator>
+        <AppVersion>{appVersion}</AppVersion>
+      </Content>
+    </SplashScreenWrapper>
   );
 };
 
