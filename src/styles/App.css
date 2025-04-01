@@ -1,40 +1,104 @@
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Variables globales y estilos base */
+:root {
+  --background-color: #ffffff; /* Fondo blanco */
+  --input-border-color: #ccc; /* Borde gris claro */
+  --input-hover-border-color: #999; /* Gris más oscuro al pasar el cursor */
+  --input-focus-border-color: #007bff; /* Azul al enfocar */
+  --text-color: #333; /* Texto oscuro para buen contraste */
+  --button-bg-color: #007bff; /* Botón azul */
+  --button-hover-bg-color: #0056b3; /* Azul más oscuro al pasar el cursor */
 }
 
-@keyframes logo-spin {
+#root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  max-height: 100%;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Animaciones y keyframes globales */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-.card {
-  padding: 2em;
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
-.read-the-docs {
-  color: #888;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
-.medievalsharp-regular {
-  font-family: "MedievalSharp", serif;
-  font-weight: 400;
-  font-style: normal;
+
+/* Mensajes globales */
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-top: 5px;
+  animation: shake 0.3s ease-in-out;
+}
+
+.success-message {
+  color: #28a745;
+  font-size: 14px;
+  margin-top: 5px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Botón para instalar la PWA */
+#install-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--button-bg-color);
+  color: white;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  display: none;
+  animation: bounce 1.5s infinite;
+}
+
+#install-button:hover {
+  background: var(--button-hover-bg-color);
+  box-shadow: 0 4px 15px rgba(0, 91, 187, 0.6);
 }

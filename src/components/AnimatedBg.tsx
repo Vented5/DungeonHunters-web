@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import "../styles/AnimatedBg.css"
 
 interface MyComponentProps {
   children: ReactNode;
