@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/SplashScreen.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/SplashScreen.css";
 
 interface SplashScreenProps {
   minDisplayTime?: number;
@@ -15,17 +15,17 @@ interface SplashScreenProps {
 
 const SplashScreen: React.FC<SplashScreenProps> = ({
   minDisplayTime = 2000,
-  navigateTo = '/dashboard',
+  navigateTo = "/dashboard",
   logo,
-  appName = 'Dungeon Hunters',
-  loadingText = 'Loading...',
-  appVersion = 'v1.0.0',
-  backgroundColor = 'linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%)',
+  appName = "Dungeon Hunters",
+  loadingText = "Loading...",
+  appVersion = "v1.0.0",
+  backgroundColor = "linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%)",
   onInit,
 }) => {
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
-  const [status, setStatus] = useState('Initializing...');
+  const [status, setStatus] = useState("Initializing...");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -43,44 +43,44 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
         }, minDisplayTime / 50);
 
         // Check authentication
-        setStatus('Checking authentication...');
-        const accessToken = localStorage.getItem('accessToken');
-        
+        setStatus("Checking authentication...");
+        const accessToken = localStorage.getItem("accessToken");
+
         // Run custom initialization if provided
         let customInitSuccess = true;
         if (onInit) {
-          setStatus('Loading app data...');
+          setStatus("Loading app data...");
           customInitSuccess = await onInit();
         }
 
         // Clear the progress interval
         clearInterval(progressInterval);
-        
+
         // Ensure minimum display time has elapsed
         const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
-        
+
         // Set progress to 100%
         setProgress(100);
-        setStatus('Ready!');
-        
+        setStatus("Ready!");
+
         // Navigate after the remaining time
         setTimeout(() => {
           if (!accessToken || !customInitSuccess) {
-            navigate('/login');
+            navigate("/dashboard");
           } else {
             navigate(navigateTo);
           }
         }, remainingTime);
       } catch (error) {
         clearInterval(progressInterval);
-        setError('Failed to initialize the application');
-        setStatus('Error');
+        setError("Failed to initialize the application");
+        setStatus("Error");
         setProgress(100);
-        
+
         // Navigate to login after delay even on error
         setTimeout(() => {
-          navigate('/login');
+          navigate("/login");
         }, 10000);
       }
     };
@@ -94,12 +94,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
 
   // Default logo if none provided
   const defaultLogo = (
-    <svg 
-      className="app-logo" 
-      viewBox="0 0 100 100" 
-      width="120" 
-      height="120"
-    >
+    <svg className="app-logo" viewBox="0 0 100 100" width="120" height="120">
       <circle cx="50" cy="50" r="40" fill="#4A90E2" />
       <polygon points="35,30 70,50 35,70" fill="white" />
     </svg>
@@ -108,19 +103,14 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
   return (
     <div className="splash-screen" style={{ background: backgroundColor }}>
       <div className="splash-content">
-        <div className="logo-container">
-          {logo || defaultLogo}
-        </div>
-        
+        <div className="logo-container">{logo || defaultLogo}</div>
+
         <h1 className="app-name">{appName}</h1>
-        
+
         <div className="progress-container">
-          <div 
-            className="progress-bar" 
-            style={{ width: `${progress}%` }}
-          ></div>
+          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
         </div>
-        
+
         <div className="loading-indicator">
           {error ? (
             <p className="error-message">{error}</p>
@@ -131,7 +121,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
             </>
           )}
         </div>
-        
+
         <div className="app-version">{appVersion}</div>
       </div>
     </div>
