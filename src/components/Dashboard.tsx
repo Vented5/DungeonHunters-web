@@ -35,11 +35,7 @@ const Dashboard: React.FC = () => {
     fetchParticipants();
   }, []);
 
-  // Handle logout
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove the token from localStorage
-    navigate("/"); // Redirect to the login page
-  };
+ 
 
   // Filter participants based on search query
   const filteredParticipants = participants.filter(
@@ -49,14 +45,9 @@ const Dashboard: React.FC = () => {
   );
 
   return (
-    <AnimatedBg>
+   
       <div className="dashboard-container">
-        <header className="dashboard-header">
-          <h1>Dashboard</h1>
-          <button onClick={handleLogout} className="logout-button">
-            Logout
-          </button>
-        </header>
+        
 
         <div className="search-bar">
           <input
@@ -92,7 +83,7 @@ const Dashboard: React.FC = () => {
           </table>
         )}
       </div>
-    </AnimatedBg>
+    
   );
 };
 

@@ -26,11 +26,7 @@ const Navbar: React.FC = () => {
               Dashboard
             </button>
           </li>
-          <li className="navbar-item">
-            <button className="navbar-link" onClick={() => navigate('/profile')}>
-              Profile
-            </button>
-          </li>
+          
           <li className="navbar-item">
             <button className="navbar-link logout-button" onClick={handleLogout}>
               Logout
