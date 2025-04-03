@@ -8,6 +8,7 @@ import { AnimatedBg } from "./AnimatedBg";
 
 type Participant = {
   id: string;
+  character: string;
   tag: string;
   score: number;
 };
@@ -52,7 +53,7 @@ const Dashboard: React.FC = () => {
         <div className="search-bar">
           <input
             type="text"
-            placeholder="Search by tag or ID..."
+            placeholder="Search by tag or Character..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -66,15 +67,15 @@ const Dashboard: React.FC = () => {
           <table className="participants-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>tag</th>
+                <th>Character</th>
+                <th>Tag</th>
                 <th>High Score</th>
               </tr>
             </thead>
             <tbody>
               {filteredParticipants.map((participant) => (
-                <tr key={participant.id}>
-                  <td>{participant.id}</td>
+                <tr key={participant.character}>
+                  <td>{participant.character}</td>
                   <td>{participant.tag}</td>
                   <td>{participant.score}</td>
                 </tr>

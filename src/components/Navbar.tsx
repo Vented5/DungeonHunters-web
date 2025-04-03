@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <h1 className="navbar-logo">Hungeon Game</h1>
+        <h1 className="navbar-logo">Dungeon Hunters</h1>
         <ul className="navbar-menu">
           <li className="navbar-item">
             <button className="navbar-link" onClick={() => navigate('/about-us')}>
@@ -27,11 +27,7 @@ const Navbar: React.FC = () => {
             </button>
           </li>
           
-          <li className="navbar-item">
-            <button className="navbar-link logout-button" onClick={handleLogout}>
-              Logout
-            </button>
-          </li>
+          
         </ul>
       </div>
     </nav>
