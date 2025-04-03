@@ -4,7 +4,7 @@ self.addEventListener('install', (event) => {
     caches.open('pwa-cache').then((cache) => { ///manda a llamar al cache o a todo lo ue se almacene en el disco duro de nuestros disposistivos
       return cache.addAll([ //ruta de los archivos que queremos almacenar en el cache
         'index.html',
-        './src/styles/index.css',
+        './src/styles/App.css',
         'script.js',
         './src/assets/dungeongame192x192.png',
         './src/assets/dungeongame512x512.png',

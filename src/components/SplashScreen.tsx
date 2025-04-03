@@ -20,7 +20,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
   appName = "Dungeon Hunters",
   loadingText = "Loading...",
   appVersion = "v1.0.0",
-  backgroundColor = "linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%)",
+  backgroundColor = "linear-gradient(135deg, rgb(240, 192, 34) 35%, rgb(238, 24, 9) 100%)",
   onInit,
 }) => {
   const navigate = useNavigate();
@@ -95,7 +95,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
   // Default logo if none provided
   const defaultLogo = (
     <svg className="app-logo" viewBox="0 0 100 100" width="120" height="120">
-      <circle cx="50" cy="50" r="40" fill="#4A90E2" />
+      <circle cx="50" cy="50" r="40" fill="rgb(141, 13, 45)" />
       <polygon points="35,30 70,50 35,70" fill="white" />
     </svg>
   );

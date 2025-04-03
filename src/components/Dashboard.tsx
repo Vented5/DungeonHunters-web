@@ -36,55 +36,67 @@ const Dashboard: React.FC = () => {
     fetchParticipants();
   }, []);
 
- 
-
   // Filter participants based on search query
   const filteredParticipants = participants.filter(
     (participant) =>
       participant.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      participant.id.toLowerCase().includes(searchQuery.toLowerCase())
+      participant.character.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const characterIcons = import.meta.glob("/src/assets/images/*.png", { eager: true });
+
+  const getCharacterIcon = (character: string) => {
+    const fileName = `/src/assets/images/${character}.png`;
+    return (characterIcons as Record<string, { default: string }>)[fileName]?.default || "";
+  };
+
   return (
-   
-      <div className="dashboard-container">
-        
+    <div className="dashboard-container">
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search by tag or Character..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
 
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search by tag or Character..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        {isLoading ? (
-          <div className="loading-spinner"></div>
-        ) : error ? (
-          <div className="error-message">{error}</div>
-        ) : (
+      {isLoading ? (
+        <div className="loading-spinner"></div>
+      ) : error ? (
+        <div className="error-message">{error}</div>
+      ) : (
+        // Agregamos un contenedor "card" para la tabla
+        <div className="card">
           <table className="participants-table">
             <thead>
               <tr>
                 <th>Character</th>
+                <th></th>
                 <th>Tag</th>
                 <th>High Score</th>
               </tr>
             </thead>
             <tbody>
               {filteredParticipants.map((participant) => (
-                <tr key={participant.character}>
+                <tr key={participant.id}>
                   <td>{participant.character}</td>
+                  <td>
+                  <img
+                    src={getCharacterIcon(participant.character)}
+                    alt={participant.character}
+                    className="character-icon"
+                  />
+                  </td>
                   <td>{participant.tag}</td>
                   <td>{participant.score}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        )}
-      </div>
-    
+        </div>
+      )}
+    </div>
   );
 };
 

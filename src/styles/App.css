@@ -7,7 +7,7 @@
   --input-hover-border-color: #999;
   --input-focus-border-color: #007bff;
   --text-color: #333;
-  --button-bg-color: #007bff;
+  --button-bg-color: #6f00ff;
   --button-hover-bg-color: #0056b3;
 }
 
@@ -240,7 +240,7 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  display: none;
+  display: block;
   animation: bounce 1.5s infinite;
 }
 

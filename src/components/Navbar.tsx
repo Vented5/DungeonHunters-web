@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
+import navlogo from  '../assets/images/navlogo.png'
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +15,10 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <h1 className="navbar-logo">Dungeon Hunters</h1>
+      <div className="navbar-logo-container" onClick={() => navigate('/')}>
+          <img src={navlogo} alt="Logo de la App" className="navbar-logo" />
+          
+        </div>
         <ul className="navbar-menu">
           <li className="navbar-item">
             <button className="navbar-link" onClick={() => navigate('/about-us')}>
