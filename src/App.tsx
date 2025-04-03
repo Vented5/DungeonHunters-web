@@ -7,7 +7,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import InstallButton from "./components/InstallButton";
 import Dashboard from "./components/Dashboard";
 import AboutUs from "./components/AboutUs";
 
@@ -22,10 +21,9 @@ const App: React.FC = () => {
     <>
       {!hideNavbar && <Navbar />}
       <Routes>
-
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/about-us" element={<AboutUs />} />
-    
+
         <Route path="/" element={<SplashScreen />} />
       </Routes>
     </>

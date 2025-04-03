@@ -1,10 +1,8 @@
 // src/components/Dashboard.tsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 import "../styles/AnimatedBg.css";
-import { AnimatedBg } from "./AnimatedBg";
 
 type Participant = {
   id: string;
@@ -18,7 +16,6 @@ const Dashboard: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   // Fetch participants from the backend
   useEffect(() => {
@@ -43,11 +40,16 @@ const Dashboard: React.FC = () => {
       participant.character.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const characterIcons = import.meta.glob("/src/assets/images/*.png", { eager: true });
+  const characterIcons = import.meta.glob("/src/assets/images/*.png", {
+    eager: true,
+  });
 
   const getCharacterIcon = (character: string) => {
     const fileName = `/src/assets/images/${character}.png`;
-    return (characterIcons as Record<string, { default: string }>)[fileName]?.default || "";
+    return (
+      (characterIcons as Record<string, { default: string }>)[fileName]
+        ?.default || ""
+    );
   };
 
   return (
@@ -82,11 +84,11 @@ const Dashboard: React.FC = () => {
                 <tr key={participant.id}>
                   <td>{participant.character}</td>
                   <td>
-                  <img
-                    src={getCharacterIcon(participant.character)}
-                    alt={participant.character}
-                    className="character-icon"
-                  />
+                    <img
+                      src={getCharacterIcon(participant.character)}
+                      alt={participant.character}
+                      className="character-icon"
+                    />
                   </td>
                   <td>{participant.tag}</td>
                   <td>{participant.score}</td>
